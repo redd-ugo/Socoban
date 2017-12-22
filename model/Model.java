@@ -72,31 +72,44 @@ public class Model {
         return false;
     }
     public boolean checkBoxCollisionAndMoveIfAvaliable(Direction direction){
-        int dx=0,dy=0;
-        if (direction.ordinal()<2) dx = FIELD_CELL_SIZE;
-        else dy = FIELD_CELL_SIZE;
-        if (direction.ordinal()%2==0){
-            dx*=-1;
-            dy*=-1;
-        }
         Player player = gameObjects.getPlayer();
+        GameObject stoped = null;
+        for (GameObject gameObject : gameObjects.getAll()) {
+            if (!(gameObject instanceof Player) && !(gameObject instanceof Home) && player.isCollision(gameObject, direction)) {
+                stoped = gameObject;
+            }
+        }
 
-        //Can player smash into wall? Return true if so.
-        if (checkWallCollision(player,direction)) return true;
-        //Find box in which player can smash.
-        Box collisionBox = getCollisionBox(player,gameObjects.getBoxes(),direction);
-
-        //If no such box, return false.
-        if (collisionBox == null) return false;
-
-        //Will this box smash into any wall? If yes return true.
-        if (checkWallCollision(collisionBox,direction)) return true;
-        //If no - check 
-        if (getCollisionBox(collisionBox,gameObjects.getBoxes(),direction)==null) {
-            collisionBox.move(dx,dy);
+        if ((stoped == null)) {
             return false;
         }
-        return true;
+
+        if (stoped instanceof Box) {
+            Box stopedBox = (Box) stoped;
+            if (checkWallCollision(stopedBox, direction)) {
+                return true;
+            }
+            for (Box box : gameObjects.getBoxes()) {
+                if (stopedBox.isCollision(box, direction)) {
+                    return true;
+                }
+            }
+
+            switch (direction) {
+                case LEFT:
+                    stopedBox.move(-FIELD_CELL_SIZE, 0);
+                    break;
+                case RIGHT:
+                    stopedBox.move(FIELD_CELL_SIZE, 0);
+                    break;
+                case UP:
+                    stopedBox.move(0, -FIELD_CELL_SIZE);
+                    break;
+                case DOWN:
+                    stopedBox.move(0, FIELD_CELL_SIZE);
+            }
+        }
+        return false;
     }
 
     private Box getCollisionBox(CollisionObject collisionObject,Set<Box> boxes, Direction direction){
