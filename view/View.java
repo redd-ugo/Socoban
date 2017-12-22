@@ -35,4 +35,10 @@ public class View extends JFrame {
     public GameObjects getGameObjects(){
         return this.controller.getGameObjects();
     }
+
+    public void completed(int level) {
+        update();
+        JOptionPane.showMessageDialog(this,String.format("You have completed level %d! Proceed to next level",level));
+        controller.startNextLevel();
+    }
 }

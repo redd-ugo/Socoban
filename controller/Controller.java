@@ -7,14 +7,16 @@ import com.javarush.task.task34.task3410.view.View;
 
 
 public class Controller implements EventListener {
+
     public Controller() {
         this.model = new Model();
         model.restart();
         this.view = new View(this);
         this.view.init();
-
-
+        model.setEventListener(this);
+        view.setEventListener(this);
     }
+
     private View view;
     private Model model;
 
@@ -24,21 +26,28 @@ public class Controller implements EventListener {
 
     @Override
     public void move(Direction direction) {
+        model.move(direction);
+        view.update();
 
     }
 
     @Override
     public void restart() {
+        model.restart();
+        view.update();
 
     }
 
     @Override
     public void startNextLevel() {
+        model.startNextLevel();
+        view.update();
 
     }
 
     @Override
     public void levelCompleted(int level) {
+        view.completed(level);
 
     }
 
