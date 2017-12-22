@@ -13,7 +13,7 @@ public class Wall extends CollisionObject {
         int leftUpperCornerX = getX() - getWidth() / 2;
         int leftUpperCornerY = getY() - getHeight() / 2;
         graphics.fillRect(leftUpperCornerX,leftUpperCornerY,getWidth(),getHeight());
-        /*int lineY1 = getY() - getHeight()/4;
+        int lineY1 = getY() - getHeight()/4;
         int lineY2 = getY() + getHeight()/4;
         int lineY3 = getY() + getHeight()/2;
         int lineX = getX() + getWidth()/2;
@@ -22,7 +22,7 @@ public class Wall extends CollisionObject {
         graphics.drawRect(leftUpperCornerX,lineY2,getWidth(),lineY3-lineY2);
         graphics.drawLine(leftUpperCornerX,leftUpperCornerY,lineX,leftUpperCornerY);
         graphics.drawLine(getX(),leftUpperCornerY,getX(),lineY1);
-        graphics.drawLine(getX(),getY(),getX(),lineY2);*/
+        graphics.drawLine(getX(),getY(),getX(),lineY2);
 
     }
 }
